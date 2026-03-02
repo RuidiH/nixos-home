@@ -28,7 +28,7 @@ in
       dig
     ];
 
-    environment.variables.EDITOR = "vim";
+    environment.variables.EDITOR = "nvim";
 
     programs.zsh.enable = true;
 
