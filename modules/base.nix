@@ -43,10 +43,10 @@ in
     sops.secrets.github_token = {
       sopsFile = ../secrets/secrets.yaml;
     };
-    
+
     nix.extraOptions = ''
       !include /run/secrets/github_token
-    ''; 
+    '';
     
     # define sops age key file
     sops.age.keyFile = "/root/.config/sops/age/keys.txt";

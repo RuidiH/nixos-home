@@ -9,6 +9,8 @@
     ../../modules/desktop/fonts.nix
     ../../modules/services/mihomo.nix
     ../../modules/services/ssh.nix
+    ../../modules/services/howdy.nix
+    ../../modules/desktop/greetd.nix
     ../../modules/users.nix
   ];
 
@@ -38,6 +40,8 @@
   local.desktop.fonts.enable = true;
   local.services.ssh.enable = true;
   local.services.mihomo.enable = false;
+  local.services.howdy.enable = true;
+  local.desktop.greetd.enable = true;
 
   system.stateVersion = "25.11"; 
 }
