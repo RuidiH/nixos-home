@@ -1,0 +1,19 @@
+# Nix build artifacts
+result
+result-*
+
+# sops age key (never commit private keys)
+keys.txt
+*.age
+
+# Editor backups
+*~
+*.swp
+*.swo
+.#*
+
+# direnv
+.direnv/
+
+# OS
+.DS_Store
