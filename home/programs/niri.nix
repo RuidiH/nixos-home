@@ -91,6 +91,12 @@ in
             "noctalia-shell"
           ];
         }
+        {
+          command = [
+            "fcitx5"
+            "-d"
+          ];
+        }
       ];
 
       environment."NIXOS_OZONE_WL" = "1";

@@ -7,6 +7,7 @@
     ../../modules/networking.nix
     ../../modules/desktop/niri.nix
     ../../modules/desktop/fonts.nix
+    ../../modules/desktop/fcitx5.nix
     ../../modules/desktop/greetd.nix
     ../../modules/services/howdy.nix
     ../../modules/services/mihomo.nix
@@ -34,9 +35,10 @@
   local.networking.enable = true;
   local.podman.enable = true;
   local.users.enable = true;
-  
+
   local.desktop.niri.enable = true;
   local.desktop.fonts.enable = true;
+  local.desktop.fcitx5.enable = true;
   local.desktop.greetd.enable = true;
 
   local.services.ssh.enable = true;

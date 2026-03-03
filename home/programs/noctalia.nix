@@ -48,7 +48,7 @@
       };
       wallpaper = {
         enabled = true;
-        directory = "/home/reedh/Pictures/Wallpapers";
+        # Using wallpapers.json instead of directory scanning
       };
       colorSchemes = {
         predefinedScheme = "Monochrome";

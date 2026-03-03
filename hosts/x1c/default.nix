@@ -7,6 +7,7 @@
     ../../modules/networking.nix
     ../../modules/desktop/niri.nix
     ../../modules/desktop/fonts.nix
+    ../../modules/desktop/fcitx5.nix
     ../../modules/services/mihomo.nix
     ../../modules/services/ssh.nix
     ../../modules/services/howdy.nix
@@ -38,6 +39,7 @@
   local.users.enable = true;
   local.desktop.niri.enable = true;
   local.desktop.fonts.enable = true;
+  local.desktop.fcitx5.enable = true;
   local.services.ssh.enable = true;
   local.services.mihomo.enable = false;
   local.services.howdy.enable = true;

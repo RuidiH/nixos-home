@@ -15,6 +15,7 @@
     ./programs/alacritty.nix
     ./programs/niri.nix
     ./programs/noctalia.nix
+    ./programs/fcitx5.nix
   ];
 
   catppuccin = {
@@ -29,7 +30,12 @@
     CLAUDE_CODE_USE_BEDROCK=1;
   };
 
-  home.file."Pictures/Wallpapers/Anby.png".source = ./wallpapers/Anby.png;
+  # Noctalia wallpaper configuration (official approach)
+  home.file.".cache/noctalia/wallpapers.json" = {
+    text = builtins.toJSON {
+      defaultWallpaper = "${./wallpapers/Anby.png}";
+    };
+  };
 
   home.stateVersion = "25.11";
 }
