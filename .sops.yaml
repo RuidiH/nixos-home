@@ -1,6 +1,6 @@
 keys:
   - &x1c age16xyly909cxntd7nfulkdmq2zr02fw966848nchz5dpphanulspwq3d80gw
-  - &ideapad age10a6v8yv2e72xh0wu8rm7j3kmnkt2rpw2ks005rfugdgs1p2m3f9qh395v9
+  - &ideapad age10a6v8yv2e72xh0wu8rm7j3kmnkt2rpw2ks005rfugdgslp2m3f9qh395v9
 
 creation_rules:
   - path_regex: secrets/secrets\.yaml$
