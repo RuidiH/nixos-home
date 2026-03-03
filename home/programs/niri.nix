@@ -5,6 +5,7 @@ in
 {
   imports = [ inputs.niri.homeModules.config ];
   programs.niri = {
+    package = pkgs.niri;
     settings = {
 
       # Input
