@@ -48,7 +48,7 @@ cd ~/projects/nixos-home
 sops secrets/secrets.yaml
 
 # Or without sops installed globally
-nix-shell -p sops --run 'sops secrets/secrets.yaml'
+sudo nix-shell -p sops --run 'sops secrets/secrets.yaml'
 ```
 
 #### New machine setup
@@ -71,5 +71,5 @@ nix-shell -p sops --run 'sops secrets/secrets.yaml'
 
 4. Re-encrypt secrets so the new machine can decrypt:
    ```bash
-   sops updatekeys secrets/secrets.yaml
+   sudo nix-shell -p sops --run 'sops updatekeys secrets/secrets.yaml'
    ```
