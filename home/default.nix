@@ -29,5 +29,7 @@
     CLAUDE_CODE_USE_BEDROCK=1;
   };
 
-  home.stateVersion = "25.11";  
+  home.file."Pictures/Wallpapers/Anby.png".source = ./wallpapers/Anby.png;
+
+  home.stateVersion = "25.11";
 }

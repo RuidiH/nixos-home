@@ -46,6 +46,10 @@
           ];
         };
       };
+      wallpaper = {
+        enabled = true;
+        directory = "/home/reedh/Pictures/Wallpapers";
+      };
       colorSchemes = {
         predefinedScheme = "Monochrome";
         useWallpaperColors = false;
