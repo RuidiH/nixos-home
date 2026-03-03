@@ -18,5 +18,10 @@
 
   home.username = "reedh";
   home.homeDirectory = "/home/reedh";
+  home.sessionVariables = {
+    AWS_PROFILE="insurgent";
+    CLAUDE_CODE_USE_BEDROCK=1;
+  };
+
   home.stateVersion = "25.11";  
 }
