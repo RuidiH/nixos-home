@@ -22,6 +22,9 @@
     nixvim = {
       url = "github:nix-community/nixvim";
     };
+    catppuccin = {
+      url = "github:catppuccin/nix";
+    };
   };
   outputs = inputs@{ nixpkgs, home-manager, sops-nix, ... }:
     let 

@@ -1,8 +1,9 @@
 { isGraphical }:
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 {
   imports = [
+    inputs.catppuccin.homeModules.catppuccin
     ./programs/git.nix
     ./programs/zsh.nix
     ./programs/starship.nix
@@ -15,6 +16,11 @@
     ./programs/niri.nix
     ./programs/noctalia.nix
   ];
+
+  catppuccin = {
+    enable = true;
+    flavor = "mocha";
+  };
 
   home.username = "reedh";
   home.homeDirectory = "/home/reedh";
