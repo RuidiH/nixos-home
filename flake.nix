@@ -25,24 +25,28 @@
     catppuccin = {
       url = "github:catppuccin/nix";
     };
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ nixpkgs, home-manager, sops-nix, ... }:
     let 
       system = "x86_64-linux";
       mkHost = { hostModule, isGraphical ? true }: nixpkgs.lib.nixosSystem {
-	inherit system;
-	specialArgs = { inherit inputs; };
-	modules = [
-	  hostModule
-	  sops-nix.nixosModules.sops
-	  home-manager.nixosModules.home-manager
-	  {
-	    home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-	    home-manager.extraSpecialArgs = { inherit inputs isGraphical; };
-            home-manager.users.reedh = import ./home { inherit isGraphical; };
-	  }
-	];
+      	inherit system;
+      	specialArgs = { inherit inputs; };
+      	modules = [
+      	  hostModule
+      	  sops-nix.nixosModules.sops
+      	  home-manager.nixosModules.home-manager
+      	  {
+      	    home-manager.useGlobalPkgs = true;
+                  home-manager.useUserPackages = true;
+      	    home-manager.extraSpecialArgs = { inherit inputs isGraphical; };
+                  home-manager.users.reedh = import ./home { inherit isGraphical; };
+      	  }
+      	];
       };
     in
     {
@@ -52,6 +56,10 @@
       };
       nixosConfigurations.ideapad = mkHost {
         hostModule = ./hosts/ideapad;
+        isGraphical = true;
+      };
+      nixosConfigurations.wsl = mkHost {
+        hostModule = ./hosts/wsl;
         isGraphical = true;
       };
     };
