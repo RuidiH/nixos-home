@@ -26,6 +26,8 @@ in
       git
       curl
       dig
+      openssl
+      nmap
     ];
 
     environment.variables.EDITOR = "nvim";

@@ -13,6 +13,7 @@
     ../../modules/services/mihomo.nix
     ../../modules/services/ssh.nix
     ../../modules/users.nix
+    ../../modules/k3s.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -35,6 +36,7 @@
   local.networking.enable = true;
   local.podman.enable = true;
   local.users.enable = true;
+  local.k3s.enable = true;
 
   local.desktop.niri.enable = true;
   local.desktop.fonts.enable = true;

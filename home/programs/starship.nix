@@ -4,6 +4,7 @@
     enable = true;
     settings = {
       add_newline = false;
+      line_break.disabled = true;
 
       format = "$directory$git_branch$python$nix_shell$aws$line_break$character";
 

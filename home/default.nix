@@ -9,6 +9,7 @@
     ./programs/starship.nix
     ./programs/direnv.nix
     ./programs/nixvim.nix
+    ./programs/tmux.nix
     ./programs/yazi.nix
     ./packages.nix
   ] ++ lib.optionals isGraphical [
