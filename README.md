@@ -37,6 +37,40 @@ nix flake update nixpkgs
 
 Then rebuild to apply.
 
+### Tmux
+
+Start a new session or reattach:
+
+```bash
+tmux new -s work    # new session
+tmux a              # reattach
+```
+
+#### Keybindings
+
+All tmux operations use `Alt` as the modifier (no prefix key needed):
+
+| Key | Action |
+|-----|--------|
+| `Alt+h/j/k/l` | Navigate panes |
+| `Alt+Shift+h/j/k/l` | Resize panes |
+| `Alt+\` | Split pane vertically |
+| `Alt+-` | Split pane horizontally |
+| `Alt+w` | Close pane |
+| `Alt+z` | Toggle pane zoom (fullscreen/split) |
+| `Alt+c` | New window |
+| `Alt+x` | Close window |
+| `Alt+1..5` | Switch to window 1-5 |
+| `Alt+v` | Enter copy mode |
+
+#### Copy mode
+
+1. `Alt+v` to enter copy mode
+2. Navigate with vi keys (`h/j/k/l`, `/` to search)
+3. `v` to start selection
+4. `y` to yank to system clipboard
+5. Paste with `Ctrl+Shift+v` (terminal) or `p` (nvim)
+
 ### Secrets (sops-nix)
 
 Secrets are encrypted in `secrets/secrets.yaml` using age keys derived from each machine's SSH host key.

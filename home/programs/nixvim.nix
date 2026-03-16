@@ -27,6 +27,8 @@
     globals.mapleader = " ";
     globals.maplocalleader = " ";
 
+    diagnostics.virtual_lines = true;
+
     plugins = {
       treesitter = {
         enable = true;
@@ -90,7 +92,7 @@
         };
       };
 
-      tmux-navigator.enable = true;
+
       render-markdown.enable = true;
       which-key.enable = true;
       lualine.enable = true;

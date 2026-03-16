@@ -11,6 +11,7 @@
     file
     which
     tree
+    wl-clipboard
 
     # Archive tools
     zip
