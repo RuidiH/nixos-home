@@ -27,7 +27,14 @@
     globals.mapleader = " ";
     globals.maplocalleader = " ";
 
-    diagnostics.virtual_lines = true;
+    extraConfigLua = ''
+      vim.diagnostic.config({
+        virtual_text = true,
+        signs = true,
+        underlines = true,
+        update_in_insert = false,
+      })
+    '';
 
     plugins = {
       treesitter = {
@@ -51,15 +58,13 @@
             "<leader>rn" = "rename";
             "<leader>ca" = "code_action";
           };
-          diagnostic = {
-            "<leader>j" = "goto_next";
-            "<leader>k" = "goto_prev";
-          };
         };
         servers = {
           nixd.enable = true;
           pyright.enable = true;
           gopls.enable = true;
+          yamlls.enable = true;
+          dockerls.enable = true;
         };
       };
 
@@ -118,6 +123,8 @@
         ''; options = { desc = "Close buffer or quit"; silent = true; }; }
       { mode = "n"; key = "<S-l>"; action = "<cmd>bnext<CR>"; options = { desc = "Next buffer"; silent = true; }; }
       { mode = "n"; key = "<S-h>"; action = "<cmd>bprevious<CR>"; options = { desc = "Previous buffer"; silent = true; }; }
+      { mode = "n"; key = "<leader>j"; action.__raw = "vim.diagnostic.goto_next"; options = { desc = "Next diagnostic"; silent = true; }; }
+      { mode = "n"; key = "<leader>k"; action.__raw = "vim.diagnostic.goto_prev"; options = { desc = "Prev diagnostic"; silent = true; }; }
     ];
   };
 }

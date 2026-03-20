@@ -12,6 +12,7 @@
     which
     tree
     wl-clipboard
+    nerd-fonts.jetbrains-mono
 
     # Archive tools
     zip

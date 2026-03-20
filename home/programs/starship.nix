@@ -15,11 +15,11 @@
 
       git_branch.format = " [$branch]($style) ";
 
-      python.format = "[🐍](yellow) ";
+      python.format = "[ ](yellow) ";
 
-      nix_shell.format = "[❄️](blue) ";
+      nix_shell.format = "[ ](blue) ";
 
-      aws.format = "[☁️](yellow) ";
+      aws.format = "[ ](yellow) ";
 
       cmd_duration.disabled = true;
     };

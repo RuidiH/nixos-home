@@ -9,6 +9,7 @@ in
       env.TERM = "xterm-256color";
       font = {
         size = 12;
+        normal.family = "JetBrainsMono Nerd Font";
       };
 
       keyboard.bindings = [

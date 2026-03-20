@@ -5,10 +5,10 @@
     prefix = "C-a";
     mouse = true;
     baseIndex = 1;
-    escapeTime = 0;
+    escapeTime = 10;
     historyLimit = 10000;
     keyMode = "vi";
-    terminal = "xterm-256color";
+    terminal = "tmux-256color";
 
     plugins = with pkgs.tmuxPlugins; [
       yank
@@ -24,9 +24,9 @@
       bind -n M-k select-pane -U
       bind -n M-l select-pane -R
 
-      # Pane splitting (Alt+\ vertical, Alt+- horizontal)
-      bind -n M-\\ split-window -h -c "#{pane_current_path}"
-      bind -n M-- split-window -v -c "#{pane_current_path}"
+      # Pane splitting (Alt+p vertical, Alt+o horizontal)
+      bind -n M-p split-window -h -c "#{pane_current_path}"
+      bind -n M-o split-window -v -c "#{pane_current_path}"
 
       # Close pane (Alt+w)
       bind -n M-w confirm-before -p "kill pane? (y/n)" kill-pane

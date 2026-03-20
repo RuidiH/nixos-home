@@ -54,8 +54,8 @@ All tmux operations use `Alt` as the modifier (no prefix key needed):
 |-----|--------|
 | `Alt+h/j/k/l` | Navigate panes |
 | `Alt+Shift+h/j/k/l` | Resize panes |
-| `Alt+\` | Split pane vertically |
-| `Alt+-` | Split pane horizontally |
+| `Alt+p` | Split pane vertically |
+| `Alt+o` | Split pane horizontally |
 | `Alt+w` | Close pane |
 | `Alt+z` | Toggle pane zoom (fullscreen/split) |
 | `Alt+c` | New window |
