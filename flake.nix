@@ -62,5 +62,9 @@
         hostModule = ./hosts/wsl;
         isGraphical = true;
       };
+      nixosConfigurations.jz = mkHost {
+        hostModule = ./hosts/jz;
+        isGraphical = true;
+      };
     };
 }

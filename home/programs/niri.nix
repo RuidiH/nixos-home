@@ -24,6 +24,24 @@ in
         trackpoint = { };
       };
 
+      # Output (Monitor) configuration
+      # Note: This file is shared across all hosts. Niri safely ignores
+      # configurations for outputs that don't exist on the current machine.
+      outputs = {
+        # jz: MSI G271CQR 165Hz gaming monitor on DP-3
+        "DP-3" = {
+          mode = {
+            width = 2560;
+            height = 1440;
+            refresh = 165.0;   # Using maximum supported refresh rate
+          };
+          position = { x = 0; y = 0; };
+        };
+
+        # Add configurations for other hosts' monitors here as needed
+        # Other machines will safely ignore non-existent outputs
+      };
+
       # Layout
       layout = {
         gaps = 16;
