@@ -29,8 +29,12 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    aagl = {
+      url = "github:ezKEa/aagl-gtk-on-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = inputs@{ nixpkgs, home-manager, sops-nix, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, sops-nix, aagl, ... }:
     let 
       system = "x86_64-linux";
       mkHost = { hostModule, isGraphical ? true }: nixpkgs.lib.nixosSystem {
@@ -39,6 +43,7 @@
       	modules = [
       	  hostModule
       	  sops-nix.nixosModules.sops
+      	  aagl.nixosModules.default
       	  home-manager.nixosModules.home-manager
       	  {
       	    home-manager.useGlobalPkgs = true;

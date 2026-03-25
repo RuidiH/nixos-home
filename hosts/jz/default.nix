@@ -5,6 +5,7 @@
     ../../modules/base.nix
     ../../modules/podman.nix
     ../../modules/networking.nix
+    ../../modules/gaming.nix
     ../../modules/hardware/nvidia.nix
     ../../modules/desktop/niri.nix
     ../../modules/desktop/fonts.nix
@@ -37,6 +38,7 @@
   local.base.enable  = true;
   local.networking.enable = true;
   local.podman.enable = true;
+  local.gaming.enable = true;
   local.users.enable = true;
   local.hardware.nvidia.enable = true;
   local.desktop.niri.enable = true;
