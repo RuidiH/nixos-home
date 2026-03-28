@@ -25,12 +25,19 @@
   networking.hostName = "x1c";
 
   # Other Hardware Toggles
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth.enable = false;
 
   boot.loader.systemd-boot.configurationLimit = 3;
   hardware.enableRedistributableFirmware = true;
   boot.kernelModules = [ "iwlwifi" ];
   services.fwupd.enable = true; # firmware update daemon
+
+  # Intel 9560 CNVi WiFi stability: CAM mode prevents firmware crashes from
+  # power state transitions, bt_coex disables BT radio arbitration
+  boot.extraModprobeConfig = ''
+    options iwlmvm power_scheme=1
+    options iwlwifi bt_coex_active=0
+  '';  
 
   # enable services
   local.base.enable  = true;
