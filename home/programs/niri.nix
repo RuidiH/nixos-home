@@ -82,6 +82,7 @@ in
       };
 
       # Rounded corners + clip window contents to geometry.
+      prefer-no-csd = true;
       window-rules = [
         {
           geometry-corner-radius = {

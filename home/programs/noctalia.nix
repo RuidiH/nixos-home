@@ -53,7 +53,7 @@
         sortOrder = "random";
         automationEnabled = true;
         wallpaperChangeMode = "random";
-        randomIntervalSec = 600;
+        randomIntervalSec = 60;
       };
       colorSchemes = {
         predefinedScheme = "Monochrome";
