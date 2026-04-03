@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, lib, osConfig, ... }:
 {
   imports = [ inputs.noctalia.homeModules.default ];
   programs.noctalia-shell = {
@@ -48,7 +48,12 @@
       };
       wallpaper = {
         enabled = true;
-        # Using wallpapers.json instead of directory scanning
+      } // lib.optionalAttrs (osConfig.networking.hostName == "jz") {
+        directory = "/home/reedh/Downloads/Wallpapers";
+        sortOrder = "random";
+        automationEnabled = true;
+        wallpaperChangeMode = "random";
+        randomIntervalSec = 600;
       };
       colorSchemes = {
         predefinedScheme = "Monochrome";

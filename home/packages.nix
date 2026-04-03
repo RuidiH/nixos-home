@@ -40,6 +40,11 @@
     opentofu
     gnumake
     gh
+    
+    # Others
+    zathura
+    poppler-utils
+
   ] ++ lib.optionals isGraphical [
     # Graphical apps
     firefox

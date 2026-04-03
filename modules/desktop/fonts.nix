@@ -13,7 +13,7 @@ in
       noto-fonts
       noto-fonts-cjk-sans  # Chinese/Japanese/Korean fonts
       noto-fonts-cjk-serif
-      noto-fonts-emoji     # Emoji support
+      noto-fonts-color-emoji
     ];
 
     # Font configuration for better CJK rendering

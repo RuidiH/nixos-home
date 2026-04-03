@@ -1,6 +1,6 @@
 { isGraphical }:
 
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, osConfig, ... }:
 {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
@@ -32,7 +32,7 @@
   };
 
   # Noctalia wallpaper configuration (official approach)
-  home.file.".cache/noctalia/wallpapers.json" = {
+  home.file.".cache/noctalia/wallpapers.json" = lib.mkIf (osConfig.networking.hostName != "jz") {
     text = builtins.toJSON {
       defaultWallpaper = "${./wallpapers/Anby.png}";
     };

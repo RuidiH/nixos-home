@@ -29,6 +29,11 @@
   # Other Hardware Toggles
   hardware.bluetooth.enable = true;
 
+  # Disable built-in Realtek Bluetooth (0bda:0852) in favor of USB dongle
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0bda", ATTR{idProduct}=="0852", ATTR{authorized}="0"
+  '';
+
   boot.loader.systemd-boot.configurationLimit = 3;
   hardware.enableRedistributableFirmware = true;
   boot.kernelModules = [ "iwlwifi" ];
