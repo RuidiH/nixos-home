@@ -18,7 +18,7 @@
       "firefox"
       "font-jetbrains-mono-nerd-font"
     ];
-    onActivation.cleanup = "zap";
+    onActivation.cleanup = "none";
   };
 
   # Enable zsh (default macOS shell)
