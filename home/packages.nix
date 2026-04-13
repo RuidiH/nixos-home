@@ -1,4 +1,7 @@
 { pkgs, lib, isGraphical, ... }:
+let
+  isLinux = pkgs.stdenv.isLinux;
+in
 {
   home.packages = with pkgs; [
     # CLI tools
@@ -11,8 +14,6 @@
     file
     which
     tree
-    wl-clipboard
-    nerd-fonts.jetbrains-mono
 
     # Archive tools
     zip
@@ -27,8 +28,6 @@
     # System monitoring
     lsof
     btop
-    iotop
-    iftop
 
     # Nix tools
     nix-output-monitor
@@ -40,10 +39,17 @@
     opentofu
     gnumake
     gh
-    
+
     # Others
-    zathura
     poppler-utils
+
+  ] ++ lib.optionals isLinux [
+    # Linux-only
+    wl-clipboard
+    nerd-fonts.jetbrains-mono
+    iotop
+    iftop
+    zathura
 
   ] ++ lib.optionals isGraphical [
     # Graphical apps

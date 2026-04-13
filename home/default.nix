@@ -1,4 +1,4 @@
-{ isGraphical }:
+{ isGraphical, username ? "reedh", homeDirectory ? "/home/reedh" }:
 
 { config, lib, pkgs, inputs, osConfig, ... }:
 {
@@ -11,6 +11,7 @@
     ./programs/nixvim.nix
     ./programs/tmux.nix
     ./programs/yazi.nix
+    ./programs/aerospace.nix
     ./packages.nix
   ] ++ lib.optionals isGraphical [
     ./programs/alacritty.nix
@@ -24,15 +25,15 @@
     flavor = "mocha";
   };
 
-  home.username = "reedh";
-  home.homeDirectory = "/home/reedh";
+  home.username = username;
+  home.homeDirectory = homeDirectory;
   home.sessionVariables = {
     AWS_PROFILE="insurgent";
     CLAUDE_CODE_USE_BEDROCK=1;
   };
 
   # Noctalia wallpaper configuration (official approach)
-  home.file.".cache/noctalia/wallpapers.json" = lib.mkIf (osConfig.networking.hostName != "jz") {
+  home.file.".cache/noctalia/wallpapers.json" = lib.mkIf (isGraphical && osConfig.networking.hostName != "jz") {
     text = builtins.toJSON {
       defaultWallpaper = "${./wallpapers/Anby.png}";
     };
