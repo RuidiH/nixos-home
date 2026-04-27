@@ -35,6 +35,7 @@ in
     # Dev tools
     awscli2
     claude-code
+    (pkgs.callPackage ./pi.nix { })
     uv
     opentofu
     gnumake
