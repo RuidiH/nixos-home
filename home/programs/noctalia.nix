@@ -26,7 +26,7 @@
           ];
           right = [
             {
-              id = "WiFi";
+              id = "Network";
             }
             {
               id = "Bluetooth";
