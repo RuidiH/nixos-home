@@ -7,13 +7,32 @@
     trusted-users = [ "rhuang" ];
   };
 
+  users.users.rhuang = {
+    home = "/Users/rhuang";
+  };
+
+  system.primaryUser = "rhuang";
+
   nixpkgs.config.allowUnfree = true;
+
+  # direnv's zsh test suite hangs on macOS; not cached for aarch64-darwin
+  nixpkgs.overlays = [
+    (final: prev: {
+      direnv = prev.direnv.overrideAttrs (old: {
+        doCheck = false;
+      });
+    })
+  ];
 
   # Homebrew for GUI apps and casks
   homebrew = {
     enable = true;
+    brews = [
+      "go"
+      "cloudflared"
+    ];
     casks = [
-      "docker"
+      "docker-desktop"
       "obsidian"
       "firefox"
       "font-jetbrains-mono-nerd-font"

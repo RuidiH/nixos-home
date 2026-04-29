@@ -11,7 +11,6 @@
     ./programs/nixvim.nix
     ./programs/tmux.nix
     ./programs/yazi.nix
-    ./programs/aerospace.nix
     ./packages.nix
   ] ++ lib.optionals isGraphical [
     ./programs/alacritty.nix
