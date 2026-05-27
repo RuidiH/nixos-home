@@ -34,6 +34,15 @@
         underlines = true,
         update_in_insert = false,
       })
+
+      vim.filetype.add({
+        pattern = {
+          [".*/templates/.*%.yaml"] = "helm",
+          [".*/templates/.*%.yml"] = "helm",
+          [".*/templates/.*%.tpl"] = "helm",
+          ["helmfile.*%.yaml"] = "helm",
+        },
+      })
     '';
 
     plugins = {
@@ -64,8 +73,19 @@
           pyright.enable = true;
           gopls.enable = true;
           yamlls.enable = true;
+          helm_ls.enable = true;
           dockerls.enable = true;
         };
+
+        # Auto-format on save
+       plugins.lsp.onAttach = ''
+         if client.supports_method('textDocument/formatting') then
+           vim.api.nvim_create_autocmd('BufWritePre', {
+             buffer = bufnr,
+             callback = function() vim.lsp.buf.format() end,
+           })
+         end
+       '';
       };
 
       cmp = {

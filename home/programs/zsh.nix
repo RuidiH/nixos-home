@@ -18,15 +18,12 @@ in
     initContent = if isMacbook then ''
       export PATH=$PATH:$(go env GOPATH)/bin
       . "$(brew --prefix asdf)/libexec/asdf.sh"
+
+      # Local, non-nix-managed overrides (private aliases, work-specific env vars, etc.)
+      [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
     '' else ''
       # Linux init here (if needed)
+      [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
     '';
-
-    shellAliases = if isMacbook then {
-      usdev5 = "tsh kube login us-dev-5";
-      env5pop = "tsh kube login tdpops-dev-5-va-1";
-    } else {
-      # Linux aliases here (if needed)
-    };
   };
 }

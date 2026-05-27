@@ -27,9 +27,13 @@
   # Homebrew for GUI apps and casks
   homebrew = {
     enable = true;
+    taps = [
+      "robusta-dev/homebrew-holmesgpt"
+    ];
     brews = [
       "go"
       "cloudflared"
+      "robusta-dev/homebrew-holmesgpt/holmesgpt"
     ];
     casks = [
       "docker-desktop"
