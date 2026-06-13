@@ -48,6 +48,7 @@ in
     # Linux-only
     wl-clipboard
     nerd-fonts.jetbrains-mono
+    nerd-fonts.iosevka
     iotop
     iftop
     zathura
