@@ -51,10 +51,10 @@ in
       winetricks
 
       # Lutris: game launcher for non-Steam games
-      lutris
+      # lutris
 
       # Bottles: modern Wine prefix manager
-      bottles
+      # bottles
 
       # ProtonUp-Qt: Manage Proton-GE and other compatibility tools
       protonup-qt
