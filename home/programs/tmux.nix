@@ -12,6 +12,12 @@
 
     plugins = with pkgs.tmuxPlugins; [
       yank
+      {
+        plugin = nord;
+        extraConfig = ''
+          set -g @nord_tmux_no_patched_font "1"
+        '';
+      }
     ];
 
     extraConfig = ''

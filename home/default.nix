@@ -1,9 +1,8 @@
 { isGraphical, username ? "reedh", homeDirectory ? "/home/reedh" }:
 
-{ config, lib, pkgs, inputs, osConfig, ... }:
+{ lib, osConfig, ... }:
 {
   imports = [
-    inputs.catppuccin.homeModules.catppuccin
     ./programs/git.nix
     ./programs/zsh.nix
     ./programs/starship.nix
@@ -12,17 +11,12 @@
     ./programs/tmux.nix
     ./programs/yazi.nix
     ./packages.nix
-  ] ++ lib.optionals isGraphical [
     ./programs/alacritty.nix
+  ] ++ lib.optionals isGraphical [
     ./programs/niri.nix
     ./programs/noctalia.nix
     ./programs/fcitx5.nix
   ];
-
-  catppuccin = {
-    enable = true;
-    flavor = "mocha";
-  };
 
   home.username = username;
   home.homeDirectory = homeDirectory;

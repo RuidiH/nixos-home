@@ -38,14 +38,23 @@
     casks = [
       "docker-desktop"
       "obsidian"
-      "firefox"
-      "font-jetbrains-mono-nerd-font"
+      #"firefox"
+      #"font-iosevka-term-nerd-font"
+      "font-iosevka-nerd-font"
     ];
-    onActivation.cleanup = "none";
+    # onActivation.cleanup = "none";
   };
 
-  # Enable zsh (default macOS shell)
-  programs.zsh.enable = true;
+  # Enable zsh as a system shell, but leave interactive prompt/completion setup
+  # to Home Manager's programs.zsh config. The nix-darwin defaults run promptinit,
+  # compinit, and bashcompinit globally from /etc/zshrc, which duplicates the
+  # Home Manager setup and makes every new interactive shell noticeably slow.
+  programs.zsh = {
+    enable = true;
+    promptInit = "";
+    enableCompletion = false;
+    enableBashCompletion = false;
+  };
 
   environment.variables.EDITOR = "nvim";
 

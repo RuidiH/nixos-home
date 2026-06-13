@@ -25,9 +25,6 @@
     nixvim = {
       url = "github:nix-community/nixvim";
     };
-    catppuccin = {
-      url = "github:catppuccin/nix";
-    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,7 +52,7 @@
       	  }
       	];
       };
-      mkDarwin = { hostModule, username, homeDirectory, isGraphical ? false }: nix-darwin.lib.darwinSystem {
+      mkDarwin = { hostModule, username, homeDirectory, isGraphical ? false}: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit inputs; };
         modules = [

@@ -1,11 +1,11 @@
 { lib, stdenvNoCC, fetchurl, nodejs, makeWrapper, cacert }:
 
 let
-  version = "0.78.0";
+  version = "0.79.1";
 
   src = fetchurl {
     url = "https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-${version}.tgz";
-    hash = "sha256-oEfadYAdkTXjaKRxHQbQyktqtwiAGrgv0TZt3h7t0O4=";
+    hash = "sha256-qWu/LA+o0oheschhRNkkZTOAZTiRzLjmv0D2YTf1l90=";
   };
 
   deps = stdenvNoCC.mkDerivation {
@@ -30,7 +30,7 @@ let
 
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "sha256-d+FjNQIzxJx/QdemfKpPzRo6INMKEPWh0ONQ7XEgK60=";
+    outputHash = "sha256-HXtD8ogfPbxOnveiO39eBGkXMooa1a5Td6dKroumyy4=";
   };
 in
 stdenvNoCC.mkDerivation {

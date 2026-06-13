@@ -5,6 +5,10 @@
   programs.nixvim = {
     enable = true;
     defaultEditor = true;
+   
+    colorschemes.nord = {
+      enable = true;
+    };
 
     opts = {
       number = true;
@@ -22,6 +26,7 @@
       ignorecase = true;
       smartcase = true;
       updatetime = 250;
+      showmode = false;
     };
 
     globals.mapleader = " ";
@@ -78,14 +83,22 @@
         };
 
         # Auto-format on save
-       plugins.lsp.onAttach = ''
-         if client.supports_method('textDocument/formatting') then
-           vim.api.nvim_create_autocmd('BufWritePre', {
-             buffer = bufnr,
-             callback = function() vim.lsp.buf.format() end,
-           })
-         end
-       '';
+        onAttach = ''
+          if client and client:supports_method("textDocument/formatting", bufnr) then
+            local group = vim.api.nvim_create_augroup("lsp_format_" .. bufnr, { clear = true })
+
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = group,
+              buffer = bufnr,
+              callback = function()
+                vim.lsp.buf.format({
+                  bufnr = bufnr,
+                  timeout_ms = 3000,
+                })
+              end,
+            })
+          end
+        '';
       };
 
       cmp = {
@@ -95,12 +108,23 @@
           sources = [
             { name = "nvim_lsp"; }
             { name = "path"; }
-            { name = "buffer"; }
           ];
+          completion.completeopt = "menu,menuone,noinsert,noselect";
+          preselect.__raw = "cmp.PreselectMode.None";
           mapping = {
             "<Tab>".__raw = "cmp.mapping.select_next_item()";
             "<S-Tab>".__raw = "cmp.mapping.select_prev_item()";
-            "<CR>".__raw = "cmp.mapping.confirm({ select = true })";
+            "<CR>".__raw = ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() and cmp.get_selected_entry() then
+                  cmp.confirm({ select = false })
+                else
+                  fallback()
+                end
+              end, { "i", "s" })
+            '';
+            "<C-y>".__raw = "cmp.mapping.confirm({ select = true })";
+            "<C-Space>".__raw = "cmp.mapping.complete()";
             "<C-e>".__raw = "cmp.mapping.close()";
           };
         };
@@ -120,9 +144,28 @@
 
       render-markdown.enable = true;
       which-key.enable = true;
-      lualine.enable = true;
-      gitsigns.enable = true;
+      fugitive.enable = true;
       bufferline.enable = true;
+      lightline = {
+        enable = true;
+        settings = {
+          colorscheme = "nord";
+          enable = {
+            statusline = 1;
+            tabline = 0;
+          };
+          active = {
+            left = [
+              [ "mode" "paste" ]
+              [ "gitbranch" "readonly" "filename" "modified" ]
+            ];
+          };
+          component_function = {
+            gitbranch = "FugitiveHead";
+          };
+        };
+      };
+      gitsigns.enable = true;
       nvim-autopairs.enable = true;
       web-devicons.enable = true;
       yazi.enable = true;
