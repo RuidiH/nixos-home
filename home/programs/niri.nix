@@ -168,18 +168,25 @@ in
       };
 
       # Rounded corners + clip window contents to geometry.
-      prefer-no-csd = true;
-      window-rules = [
-        {
-          geometry-corner-radius = {
-            top-left = 20.0;
-            top-right = 20.0;
-            bottom-left = 20.0;
-            bottom-right = 20.0;
-          };
-          clip-to-geometry = true;
-        }
-      ];
+      # prefer-no-csd = true;
+      # window-rules = [
+      #   {
+      #     geometry-corner-radius = {
+      #       top-left = 20.0;
+      #       top-right = 20.0;
+      #       bottom-left = 20.0;
+      #       bottom-right = 20.0;
+      #     };
+      #     clip-to-geometry = true;
+      #    matches = [
+      #      { app-id = "^Alacritty$"; }
+      #    ];
+    
+      #    background-effect = {
+      #      blur = true;
+      #    };
+      #   }
+      # ];
 
       # Wallpaper
       layer-rules = [

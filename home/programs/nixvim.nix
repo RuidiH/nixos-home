@@ -80,6 +80,7 @@
           yamlls.enable = true;
           helm_ls.enable = true;
           dockerls.enable = true;
+          clangd.enable = true;
         };
 
         # Auto-format on save
