@@ -55,5 +55,11 @@ in
     
     # define sops age key file
     sops.age.keyFile = "/root/.config/sops/age/keys.txt";
+     
+    # see https://nixos.wiki/wiki/Apropos
+    documentation.man.cache = { 
+      enable = true;
+    }; 
+
   };
 }

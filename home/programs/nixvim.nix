@@ -10,6 +10,13 @@
       enable = true;
     };
 
+    highlight = {
+      LspInlayHint = {
+        fg = "#6f7787";
+        italic = true;
+      };
+    };
+
     opts = {
       number = true;
       relativenumber = true;
@@ -218,20 +225,22 @@
       { mode = "n"; key = "<leader>Q"; action = "<cmd>close<CR>"; options = { desc = "Close split"; silent = true; }; }
       { mode = "n"; key = "<S-l>"; action = "<cmd>bnext<CR>"; options = { desc = "Next buffer"; silent = true; }; }
       { mode = "n"; key = "<S-h>"; action = "<cmd>bprevious<CR>"; options = { desc = "Previous buffer"; silent = true; }; }
-      { mode = "n"; key = "<leader>h"; action = "<cmd>wincmd h<CR>"; options = { desc = "Move to left split"; silent = true; }; }
-      { mode = "n"; key = "<leader>j"; action = "<cmd>wincmd j<CR>"; options = { desc = "Move to lower split"; silent = true; }; }
-      { mode = "n"; key = "<leader>k"; action = "<cmd>wincmd k<CR>"; options = { desc = "Move to upper split"; silent = true; }; }
-      { mode = "n"; key = "<leader>l"; action = "<cmd>wincmd l<CR>"; options = { desc = "Move to right split"; silent = true; }; }
-      { mode = "n"; key = "<leader>H"; action = "<cmd>vertical resize -5<CR>"; options = { desc = "Resize split left"; silent = true; }; }
-      { mode = "n"; key = "<leader>J"; action = "<cmd>resize +5<CR>"; options = { desc = "Resize split down"; silent = true; }; }
-      { mode = "n"; key = "<leader>K"; action = "<cmd>resize -5<CR>"; options = { desc = "Resize split up"; silent = true; }; }
-      { mode = "n"; key = "<leader>L"; action = "<cmd>vertical resize +5<CR>"; options = { desc = "Resize split right"; silent = true; }; }
-      { mode = "n"; key = "<leader>p"; action = "<cmd>vsplit<CR>"; options = { desc = "Vertical split"; silent = true; }; }
-      { mode = "n"; key = "<leader>o"; action = "<cmd>split<CR>"; options = { desc = "Horizontal split"; silent = true; }; }
-      { mode = "n"; key = "<leader>="; action = "<cmd>wincmd =<CR>"; options = { desc = "Equalize splits"; silent = true; }; }
-      { mode = "n"; key = "]d"; action.__raw = "vim.diagnostic.goto_next"; options = { desc = "Next diagnostic"; silent = true; }; }
-      { mode = "n"; key = "[d"; action.__raw = "vim.diagnostic.goto_prev"; options = { desc = "Prev diagnostic"; silent = true; }; }
-      { mode = "n"; key = "<leader>d"; action.__raw = "vim.diagnostic.open_float"; options = { desc = "Line diagnostic"; silent = true; }; }
+      { mode = "n"; key = "<leader>j"; action.__raw = "vim.diagnostic.goto_next"; options = { desc = "Next diagnostic"; silent = true; }; }
+      { mode = "n"; key = "<leader>k"; action.__raw = "vim.diagnostic.goto_prev"; options = { desc = "Prev diagnostic"; silent = true; }; }
+      {
+        mode = "n";
+        key = "<leader>uh";
+        action.__raw = ''
+          function()
+            local bufnr = vim.api.nvim_get_current_buf()
+            vim.lsp.inlay_hint.enable(
+              not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
+              { bufnr = bufnr }
+            )
+          end
+        '';
+        options.desc = "Toggle inlay hints";
+      }
     ];
   };
 }

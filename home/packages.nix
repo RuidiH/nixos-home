@@ -41,6 +41,11 @@ in
     gnumake
     gh
 
+    # docs
+    man
+    man-pages
+    man-pages-posix
+
     # Others
     poppler-utils
 
