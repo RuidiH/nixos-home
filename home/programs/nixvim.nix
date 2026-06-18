@@ -212,7 +212,7 @@
         };
       };
       gitsigns.enable = true;
-      nvim-autopairs.enable = true;
+      nvim-autopairs.enable = false;
       web-devicons.enable = true;
       yazi.enable = true;
     };
