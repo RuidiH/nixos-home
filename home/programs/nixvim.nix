@@ -48,6 +48,44 @@
           ["helmfile.*%.yaml"] = "helm",
         },
       })
+
+      vim.api.nvim_create_user_command("SmartDeleteBuffer", function()
+        local buf = vim.api.nvim_get_current_buf()
+
+        if vim.bo[buf].modified then
+          vim.notify("Buffer has unsaved changes", vim.log.levels.WARN)
+          return
+        end
+
+        local listed = vim.tbl_filter(function(b)
+          return b.bufnr ~= buf and b.listed == 1 and b.loaded == 1
+        end, vim.fn.getbufinfo({ buflisted = 1 }))
+
+        local target = nil
+        local alt = vim.fn.bufnr("#")
+
+        if alt > 0 and alt ~= buf and vim.fn.buflisted(alt) == 1 and vim.api.nvim_buf_is_loaded(alt) then
+          target = alt
+        elseif #listed > 0 then
+          target = listed[1].bufnr
+        elseif #vim.api.nvim_tabpage_list_wins(0) > 1 then
+          target = vim.api.nvim_create_buf(true, false)
+        else
+          vim.cmd("quit")
+          return
+        end
+
+        for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+          if vim.api.nvim_win_is_valid(win) then
+            vim.api.nvim_win_set_buf(win, target)
+          end
+        end
+
+        local ok, err = pcall(vim.api.nvim_buf_delete, buf, {})
+        if not ok then
+          vim.notify(err, vim.log.levels.ERROR)
+        end
+      end, {})
     '';
 
     plugins = {
@@ -176,15 +214,8 @@
       { mode = "n"; key = "<leader>y"; action = "<cmd>Yazi<CR>"; options = { desc = "Open yazi"; silent = true; }; }
       { mode = "n"; key = "<Esc>"; action = "<cmd>noh<CR>"; options = { desc = "Clear highlight"; silent = true; }; }
       { mode = "n"; key = "<leader>w"; action = "<cmd>w<CR>"; options = { desc = "Save"; silent = true; }; }
-      { mode = "n"; key = "<leader>q"; action.__raw = ''
-          function()
-            if #vim.fn.getbufinfo({ buflisted = 1 }) > 1 then
-              vim.cmd("bd")
-            else
-              vim.cmd("q")
-            end
-          end
-        ''; options = { desc = "Close buffer or quit"; silent = true; }; }
+      { mode = "n"; key = "<leader>q"; action = "<cmd>SmartDeleteBuffer<CR>"; options = { desc = "Close buffer"; silent = true; }; }
+      { mode = "n"; key = "<leader>Q"; action = "<cmd>close<CR>"; options = { desc = "Close split"; silent = true; }; }
       { mode = "n"; key = "<S-l>"; action = "<cmd>bnext<CR>"; options = { desc = "Next buffer"; silent = true; }; }
       { mode = "n"; key = "<S-h>"; action = "<cmd>bprevious<CR>"; options = { desc = "Previous buffer"; silent = true; }; }
       { mode = "n"; key = "<leader>h"; action = "<cmd>wincmd h<CR>"; options = { desc = "Move to left split"; silent = true; }; }
