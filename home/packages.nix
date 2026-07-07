@@ -48,6 +48,7 @@ in
 
     # Others
     poppler-utils
+    cachix
 
   ] ++ lib.optionals isLinux [
     # Linux-only
@@ -62,5 +63,6 @@ in
     # Graphical apps
     firefox
     teams-for-linux
+    discord
   ];
 }

@@ -1,6 +1,6 @@
 { config, pkgs, inputs, lib, ... }:
 let
-  noctalia = cmd: [ "noctalia-shell" "ipc" "call" ] ++ (pkgs.lib.splitString " " cmd);
+  noctalia = cmd: [ "noctalia" "msg" ] ++ (pkgs.lib.splitString " " cmd);
 in
 {
   imports = [ inputs.niri.homeModules.config ];
@@ -28,6 +28,18 @@ in
       # Note: This file is shared across all hosts. Niri safely ignores
       # configurations for outputs that don't exist on the current machine.
       outputs = {
+        # Add configurations for other hosts' monitors here as needed
+        # Other machines will safely ignore non-existent outputs
+        "HDMI-A-1" = {
+          mode = {
+            width = 2560;
+            height = 1440;
+            refresh = 60.0;   # Using maximum supported refresh rate
+          };
+          position = { x = 0; y = 0; };
+          transform.rotation = 90;
+        };
+
         # jz: MSI G271CQR 165Hz gaming monitor on DP-3
         "DP-3" = {
           mode = {
@@ -35,11 +47,8 @@ in
             height = 1440;
             refresh = 165.0;   # Using maximum supported refresh rate
           };
-          position = { x = 0; y = 0; };
+          position = { x = 1080; y = 0; };
         };
-
-        # Add configurations for other hosts' monitors here as needed
-        # Other machines will safely ignore non-existent outputs
       };
 
       # Layout
@@ -91,7 +100,6 @@ in
           };
           custom-shader = ''
             vec4 open_color(vec3 coords_geo, vec3 size_geo) {
-                float p = niri_progress;
                 float y_offset = (1.0 - p) * 0.3;
                 vec3 moved_coords = vec3(coords_geo.x, coords_geo.y + y_offset, 1.0);
                 vec3 coords_tex = niri_geo_to_tex * moved_coords;
@@ -99,7 +107,7 @@ in
                 if (coords_geo.y < 0.0 || coords_geo.y > 1.0 || coords_geo.x < 0.0 || coords_geo.x > 1.0) {
                     color = vec4(0.0);
                 }
-                return color * niri_clamped_progress;
+                return color;
             }
           '';
         };
@@ -167,40 +175,46 @@ in
         };
       };
 
-      # Rounded corners + clip window contents to geometry.
-      # prefer-no-csd = true;
-      # window-rules = [
-      #   {
-      #     geometry-corner-radius = {
-      #       top-left = 20.0;
-      #       top-right = 20.0;
-      #       bottom-left = 20.0;
-      #       bottom-right = 20.0;
-      #     };
-      #     clip-to-geometry = true;
-      #    matches = [
-      #      { app-id = "^Alacritty$"; }
-      #    ];
-    
-      #    background-effect = {
-      #      blur = true;
-      #    };
-      #   }
-      # ];
+      window-rules = [
+        {
+          matches = [ { app-id = "^(Alacritty|Nixvim)$"; } ];
+          draw-border-with-background = false;
+          opacity = 0.90;
+          background-effect = {
+            blur = true;
+            xray = true;
+          };
+        }
+      ];
 
       # Wallpaper
       layer-rules = [
         {
-          matches = [ { namespace = "^noctalia-wallpaper*"; } ];
+          matches = [ { namespace = "^noctalia-backdrop$"; } ];
           place-within-backdrop = true;
         }
+        {
+          matches = [ { namespace = "^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"; } ];
+          background-effect = {
+            blur = true;
+            xray = true;
+          };
+        }
       ];
+
+      blur = {
+        passes = 4;
+        offset = 3.0;
+        noise = 0.03;
+        saturation = 1.0;
+      };
+
       overview.workspace-shadow.enable = false;
 
       spawn-at-startup = [
         {
           command = [
-            "noctalia-shell"
+            "noctalia"
           ];
         }
         {
@@ -223,33 +237,33 @@ in
         "Mod+T".hotkey-overlay.title = "Open a Terminal: alacritty";
 
         # Noctalia core UI
-        "Mod+Space".action.spawn = noctalia "launcher toggle";
-        "Mod+S".action.spawn     = noctalia "controlCenter toggle";
-        "Mod+Ctrl+Comma".action.spawn = noctalia "settings toggle";
+        "Mod+Space".action.spawn = noctalia "panel-toggle launcher";
+        "Mod+S".action.spawn     = noctalia "panel-toggle control-center";
+        "Mod+Ctrl+Comma".action.spawn = noctalia "settings-toggle";
 
         # Session menu / lock
-        "Mod+P".action.spawn = noctalia "sessionMenu toggle";
+        "Mod+P".action.spawn = noctalia "panel-toggle session";
         "Super+Alt+L".action.spawn = noctalia "lockScreen lock";
         "Super+Alt+L".allow-when-locked = true;
 
         # Audio
-        "XF86AudioRaiseVolume".action.spawn = noctalia "volume increase";
+        "XF86AudioRaiseVolume".action.spawn = noctalia "volume-up";
         "XF86AudioRaiseVolume".allow-when-locked = true;
 
-        "XF86AudioLowerVolume".action.spawn = noctalia "volume decrease";
+        "XF86AudioLowerVolume".action.spawn = noctalia "volume-down";
         "XF86AudioLowerVolume".allow-when-locked = true;
 
-        "XF86AudioMute".action.spawn = noctalia "volume muteOutput";
+        "XF86AudioMute".action.spawn = noctalia "volume-mute";
         "XF86AudioMute".allow-when-locked = true;
 
-        "XF86AudioMicMute".action.spawn = noctalia "volume muteInput";
+        "XF86AudioMicMute".action.spawn = noctalia "mic-mute";
         "XF86AudioMicMute".allow-when-locked = true;
 
         # Media
-        "XF86AudioPlay".action.spawn = noctalia "media playPause";
+        "XF86AudioPlay".action.spawn = noctalia "media toggle";
         "XF86AudioPlay".allow-when-locked = true;
 
-        "XF86AudioStop".action.spawn = noctalia "media pause";
+        "XF86AudioStop".action.spawn = noctalia "media stop";
         "XF86AudioStop".allow-when-locked = true;
 
         "XF86AudioPrev".action.spawn = noctalia "media previous";
@@ -259,10 +273,10 @@ in
         "XF86AudioNext".allow-when-locked = true;
 
         # Brightness
-        "XF86MonBrightnessUp".action.spawn = noctalia "brightness increase";
+        "XF86MonBrightnessUp".action.spawn = noctalia "brightness-up";
         "XF86MonBrightnessUp".allow-when-locked = true;
 
-        "XF86MonBrightnessDown".action.spawn = noctalia "brightness decrease";
+        "XF86MonBrightnessDown".action.spawn = noctalia "brightness-down";
         "XF86MonBrightnessDown".allow-when-locked = true;
 
         # Window management

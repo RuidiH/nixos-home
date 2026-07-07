@@ -1,93 +1,85 @@
 { pkgs, inputs, lib, osConfig, ... }:
 {
   imports = [ inputs.noctalia.homeModules.default ];
-  programs.noctalia-shell = {
+  programs.noctalia = {
     enable = true;
     settings = {
-      bar = {
-        density = "compact";
+      backdrop = {
+        enabled = true;
+        blur_intensity = 0.5;
+        tint_intensity = 0.3;
+      };
+
+      bar.main = {
         position = "top";
-        showCapsule = false;
-        widgets = {
-          left = [
-            {
-              id = "ControlCenter";
-              useDistroLogo = true;
-            }
-            {
-              id = "Workspace";
-            }
-          ];
-          center = [
-            {
-              id = "SystemMonitor";
-              alwaysShowPercentage = false;
-            }
-          ];
-          right = [
-            {
-              id = "Network";
-            }
-            {
-              id = "Bluetooth";
-            }
-            {
-              alwaysShowPercentage = true;
-              id = "Battery";
-              warningThreshold = 20;
-            }
-            {
-              formatHorizontal = "HH:mm";
-              formatVertical = "HH mm";
-              id = "Clock";
-              useMonospacedFont = true;
-              usePrimaryColor = true;
-            }
-          ];
+        capsule = false;
+        start = [ "control-center" "workspaces" ];
+        center = [ "sysmon" ];
+        end = [ "network" "bluetooth" "battery" "clock" ];
+      };
+
+      widget = {
+        control-center = {
+          custom_image = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+          custom_image_colorize = false;
+        };
+
+        sysmon = {
+          stat = "cpu_usage";
+          display = "gauge";
+          show_label = false;
+        };
+
+        network.show_label = true;
+        bluetooth.show_label = false;
+        battery.show_label = true;
+
+        clock = {
+          format = "{:%H:%M}";
+          vertical_format = "{:%H %M}";
+          font_family = "monospace";
+          color = "primary";
         };
       };
+
+      battery.warning_threshold = 20;
       wallpaper = {
         enabled = true;
-      } // lib.optionalAttrs (osConfig.networking.hostName == "jz") {
+      } // lib.optionalAttrs (osConfig.networking.hostName == "jz") { 
         directory = "/home/reedh/Downloads/Wallpapers";
-        sortOrder = "random";
-        automationEnabled = true;
-        wallpaperChangeMode = "random";
-        randomIntervalSec = 60;
+        automation = {
+          enabled = true;
+          interval_seconds = 60;    
+          order = "random";
+        };
       };
-      colorSchemes = {
-        predefinedScheme = "Monochrome";
-        useWallpaperColors = false;
-        darkMode = true;
-        schedulingMode = "off";
+      theme = {
+        mode = "dark";
+        source = "builtin";
+        builtin = "Nord";
       };
-      general = {
-        radiusRatio = 0.2;
+
+      shell = {
+        corner_radius_scale = 0.2;
+        date_format = "%A, %m/%d/%Y";
       };
-      location = {
-        monthBeforeDay = true;
-        name = "Vancouver, Canada";
-      };
-      systemMonitor = {
-        cpuWarningThreshold = 80;
-        cpuCriticalThreshold = 90;
-        tempWarningThreshold = 80;
-        tempCriticalThreshold = 90;
-        memWarningThreshold = 80;
-        memCriticalThreshold = 90;
-        diskWarningThreshold = 80;
-        diskCriticalThreshold = 90;
-        cpuPollingInterval = 3000;
-        tempPollingInterval = 3000;
-        enableDgpuMonitoring = false;
-        memPollingInterval = 3000;
-        diskPollingInterval = 3000;
-        networkPollingInterval = 3000;
-        loadAvgPollingInterval = 3000;
-        useCustomColors = false;
-        warningColor = "";
-        criticalColor = "";
-        externalMonitor = "resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor || ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor";
+
+      location.address = "Vancouver, Canada";
+
+      system.monitor = {
+        enabled = true;
+        cpu_poll_seconds = 3.0;
+        memory_poll_seconds = 3.0;
+        network_poll_seconds = 3.0;
+        disk_poll_seconds = 3.0;
+        cpu_usage_activity_threshold = 80;
+        cpu_usage_critical_threshold = 90;
+        cpu_temp_activity_threshold = 80;
+        cpu_temp_critical_threshold = 90;
+        ram_pct_activity_threshold = 80;
+        ram_pct_critical_threshold = 90;
+        disk_pct_activity_threshold = 80;
+        disk_pct_critical_threshold = 90;
       };
     };
   };

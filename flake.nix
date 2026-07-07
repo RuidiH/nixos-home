@@ -11,12 +11,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:noctalia-dev/noctalia";
     };
     niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # url = "github:sodiboo/niri-flake";
+      url = "github:epireyn/niri-flake";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
