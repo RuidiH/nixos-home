@@ -5,7 +5,7 @@ let
 
   src = fetchurl {
     url = "https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-${version}.tgz";
-    hash = "sha256-qWu/LA+o0oheschhRNkkZTOAZTiRzLjmv0D2YTf1l90=";
+    hash = "sha256-FVxYABNMuN9sR62z6rVkFej6d0bgscumaHE0E3xFHZA=";
   };
 
   deps = stdenvNoCC.mkDerivation {
@@ -30,7 +30,7 @@ let
 
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "sha256-VyPMq9GcOL8JezicEb0V5938aGzIGVkNDF5BnAaDYog=";
+    outputHash = "sha256-f5t6/VFC6xWxbf3zaAkTxCpCg0QLDv5M+LuxdP1rbh0=";
   };
 in
 stdenvNoCC.mkDerivation {
