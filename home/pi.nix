@@ -1,7 +1,7 @@
 { lib, stdenvNoCC, fetchurl, nodejs, makeWrapper, cacert }:
 
 let
-  version = "0.79.1";
+  version = "0.80.3";
 
   src = fetchurl {
     url = "https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-${version}.tgz";
