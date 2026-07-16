@@ -31,6 +31,7 @@
     brews = [
       "go"
       "cloudflared"
+      "asdf"
     ];
     casks = [
       "docker-desktop"
