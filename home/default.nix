@@ -7,6 +7,7 @@
     ./programs/zsh.nix
     ./programs/starship.nix
     ./programs/direnv.nix
+    ./programs/pi.nix
     ./programs/nixvim.nix
     ./programs/tmux.nix
     ./programs/yazi.nix

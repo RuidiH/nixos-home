@@ -1,6 +1,28 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, inputs, lib, osConfig, ... }:
 let
   noctalia = cmd: [ "noctalia" "msg" ] ++ (pkgs.lib.splitString " " cmd);
+  hostName = osConfig.networking.hostName;
+
+  dellOutput = {
+    mode = {
+      width = 1920;
+      height = 1080;
+      refresh = 60.0;
+    };
+    scale = 1.0;
+    position = { x = 0; y = 0; };
+    transform.rotation = 90;
+  };
+
+  msiOutput = refresh: {
+    mode = {
+      width = 2560;
+      height = 1440;
+      inherit refresh;
+    };
+    scale = 1.0;
+    position = { x = 1080; y = 0; };
+  };
 in
 {
   imports = [ inputs.niri.homeModules.config ];
@@ -24,32 +46,27 @@ in
         trackpoint = { };
       };
 
-      # Output (Monitor) configuration
-      # Note: This file is shared across all hosts. Niri safely ignores
-      # configurations for outputs that don't exist on the current machine.
-      outputs = {
-        # Add configurations for other hosts' monitors here as needed
-        # Other machines will safely ignore non-existent outputs
-        "HDMI-A-1" = {
-          mode = {
-            width = 2560;
-            height = 1440;
-            refresh = 60.0;   # Using maximum supported refresh rate
+      # Output configuration is selected per host and matched by EDID identity,
+      # so it remains stable when connector names change.
+      outputs =
+        if hostName == "jz" then {
+          # Portrait Dell on the left, MSI on the right at 165 Hz.
+          "Dell Inc. DELL P2417H KH0NG93F1KYB" = dellOutput;
+          "Microstep MSI G271CQR CC3H212200308" = msiOutput 165.0;
+        } else if hostName == "x1c" then {
+          # Keep the desktop display order and append the laptop panel.
+          "Dell Inc. DELL P2417H KH0NG93F1KYB" = dellOutput;
+          "Microstep MSI G271CQR CC3H212200308" = msiOutput 144.0;
+          "LG Display 0x0608 Unknown" = {
+            mode = {
+              width = 1920;
+              height = 1080;
+              refresh = 60.020;
+            };
+            scale = 1.25;
+            position = { x = 3640; y = 0; };
           };
-          position = { x = 0; y = 0; };
-          transform.rotation = 90;
-        };
-
-        # jz: MSI G271CQR 165Hz gaming monitor on DP-3
-        "DP-3" = {
-          mode = {
-            width = 2560;
-            height = 1440;
-            refresh = 165.0;   # Using maximum supported refresh rate
-          };
-          position = { x = 1080; y = 0; };
-        };
-      };
+        } else { };
 
       # Layout
       layout = {

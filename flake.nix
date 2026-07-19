@@ -32,6 +32,7 @@
       url = "github:ezKEa/aagl-gtk-on-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs-pi.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
   outputs = inputs@{ nixpkgs, home-manager, nix-darwin, sops-nix, aagl, ... }:
     let
