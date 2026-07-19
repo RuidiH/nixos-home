@@ -1,9 +1,10 @@
-{ pkgs, inputs, lib, osConfig, ... }:
+{ config, inputs, lib, osConfig, ... }:
 {
   imports = [ inputs.noctalia.homeModules.default ];
   programs.noctalia = {
     enable = true;
-    settings = {
+
+    settings = { 
       backdrop = {
         enabled = true;
         blur_intensity = 0.5;
@@ -28,7 +29,7 @@
 
       widget = {
         control-center = {
-          custom_image = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+          custom_image = "${config.programs.noctalia.package}/share/noctalia/assets/images/distros/nixos.svg";
           custom_image_colorize = false;
         };
 
@@ -90,7 +91,7 @@
         };
       };
       theme = {
-        mode = "auto";
+        mode = "dark";
         source = "builtin";
         builtin = "Nord";
       };
