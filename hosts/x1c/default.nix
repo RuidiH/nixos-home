@@ -25,7 +25,7 @@
   networking.hostName = "x1c";
 
   # Other Hardware Toggles
-  hardware.bluetooth.enable = false;
+  hardware.bluetooth.enable = true;
 
   boot.loader.systemd-boot.configurationLimit = 3;
   hardware.enableRedistributableFirmware = true;

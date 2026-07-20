@@ -12,6 +12,8 @@
       };
 
       plugins.enabled = [ "noctalia/bongocat" ];
+    
+      theme.templates.enable_builtin_templates = true;
 
       bar.main = {
         position = "top";
@@ -77,7 +79,7 @@
       battery.warning_threshold = 20;
       wallpaper = {
         enabled = true;
-      } // lib.optionalAttrs (osConfig.networking.hostName == "jz") {
+      } // (if osConfig.networking.hostName == "jz" then {
         directory = "/home/reedh/Downloads/Wallpapers";
         default.path = "/home/reedh/Downloads/Wallpapers/127396735_p0.png";
         monitors = {
@@ -89,7 +91,10 @@
           interval_seconds = 60;
           order = "random";
         };
-      };
+      } else {
+        directory = ../wallpapers;
+        default.path = ../wallpapers/Estella.jpg;
+      });
       theme = {
         mode = "dark";
         source = "builtin";

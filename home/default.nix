@@ -21,17 +21,6 @@
 
   home.username = username;
   home.homeDirectory = homeDirectory;
-  home.sessionVariables = {
-    AWS_PROFILE="insurgent";
-    CLAUDE_CODE_USE_BEDROCK=1;
-  };
-
-  # Noctalia wallpaper configuration (official approach)
-  home.file.".cache/noctalia/wallpapers.json" = lib.mkIf (isGraphical && osConfig.networking.hostName != "jz") {
-    text = builtins.toJSON {
-      defaultWallpaper = "${./wallpapers/Anby.png}";
-    };
-  };
 
   home.stateVersion = "25.11";
 }

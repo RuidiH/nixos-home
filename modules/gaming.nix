@@ -50,12 +50,6 @@ in
       wine
       winetricks
 
-      # Lutris: game launcher for non-Steam games
-      # lutris
-
-      # Bottles: modern Wine prefix manager
-      # bottles
-
       # ProtonUp-Qt: Manage Proton-GE and other compatibility tools
       protonup-qt
     ];
@@ -63,12 +57,5 @@ in
     # Enable 32-bit graphics support for older games
     # (already enabled in nvidia.nix, but included here for completeness)
     hardware.graphics.enable32Bit = true;
-
-    # An Anime Game Launcher for HoYoverse games
-    programs.honkers-railway-launcher.enable = true;  # Honkai: Star Rail
-
-    # Uncomment these if you want other HoYoverse games:
-    # programs.anime-game-launcher.enable = true;  # Genshin Impact
-    # programs.honkers-launcher.enable = true;      # Honkai Impact 3rd
   };
 }
