@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.users = ../../../modules/users.nix;
+  flake.modules.nixos.users = ./_users/nixos.nix;
 }

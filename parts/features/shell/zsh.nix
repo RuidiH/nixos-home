@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.zsh = ../../../home/programs/zsh.nix;
+  flake.modules.homeManager.zsh = ./_zsh/home.nix;
 }

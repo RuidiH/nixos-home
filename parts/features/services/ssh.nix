@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.ssh = ../../../modules/services/ssh.nix;
+  flake.modules.nixos.ssh = ./_ssh/nixos.nix;
 }

@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.base = ../../../modules/base.nix;
+  flake.modules.nixos.base = ./_base/nixos.nix;
 }

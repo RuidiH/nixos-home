@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.pi = ../../../home/programs/pi.nix;
+  flake.modules.homeManager.pi = ./_pi/home.nix;
 }

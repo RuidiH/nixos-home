@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.tmux = ../../../home/programs/tmux.nix;
+  flake.modules.homeManager.tmux = ./_tmux/home.nix;
 }

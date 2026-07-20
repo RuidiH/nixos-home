@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.starship = ../../../home/programs/starship.nix;
+  flake.modules.homeManager.starship = ./_starship/home.nix;
 }

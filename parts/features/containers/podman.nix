@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.podman = ../../../modules/podman.nix;
+  flake.modules.nixos.podman = ./_podman/nixos.nix;
 }

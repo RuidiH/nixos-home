@@ -1,7 +1,2 @@
-{ inputs, pkgs, ... }:
-{
-  programs.pi-coding-agent = {
-    enable = true;
-    package = inputs.nixpkgs-pi.legacyPackages.${pkgs.system}.pi-coding-agent;
-  };
-}
+# Compatibility path for hosts not yet migrated to the dendritic composition.
+import ../../parts/features/development/_pi/home.nix

@@ -1,10 +1,2 @@
-{ ... }:
-{
-  programs.git = {
-    enable = true;
-    settings.user = {
-      name = "RuidiH";
-      email = "764342051@qq.com";
-    };
-  };
-}
+# Compatibility path for hosts not yet migrated to the dendritic composition.
+import ../../parts/features/development/_git/home.nix

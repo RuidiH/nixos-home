@@ -1,0 +1,67 @@
+{ pkgs, lib, isGraphical, ... }:
+let
+  isLinux = pkgs.stdenv.isLinux;
+in
+{
+  home.packages = with pkgs; [
+    # CLI tools
+    fastfetch
+    nnn
+    ripgrep
+    jq
+    eza
+    fzf
+    file
+    which
+    tree
+
+    # Archive tools
+    zip
+    xz
+    unzip
+    p7zip
+
+    # Network tools
+    dnsutils
+    ldns
+
+    # System monitoring
+    lsof
+    btop
+
+    # Nix tools
+    nix-output-monitor
+
+    # Dev tools
+    awscli2
+    claude-code
+    uv
+    opentofu
+    gnumake
+    gh
+
+    # docs
+    man
+    man-pages
+    man-pages-posix
+
+    # Others
+    poppler-utils
+    cachix
+
+  ] ++ lib.optionals isLinux [
+    # Linux-only
+    wl-clipboard
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.iosevka
+    iotop
+    iftop
+    zathura
+
+  ] ++ lib.optionals isGraphical [
+    # Graphical apps
+    firefox
+    teams-for-linux
+    discord
+  ];
+}

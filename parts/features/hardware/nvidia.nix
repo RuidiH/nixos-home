@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.nvidia = ../../../modules/hardware/nvidia.nix;
+  flake.modules.nixos.nvidia = ./_nvidia/nixos.nix;
 }

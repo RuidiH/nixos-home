@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.nixvim = ../../../home/programs/nixvim.nix;
+  flake.modules.homeManager.nixvim = ./_nixvim/home.nix;
 }

@@ -80,3 +80,15 @@ hosts that still use the legacy composition.
 
 This relocation does not introduce any additional derivation change for `jz`,
 and the legacy `x1c` derivation remains exactly equal to the baseline.
+
+### 6. Shared feature implementation locality
+
+The core, package, container, gaming, hardware, service, development, and shell
+implementations now live beside their registration leaves under
+`parts/features/`. The previous files in `modules/` and `home/` are temporary
+compatibility imports for unmigrated hosts. Relative SOPS file references in
+base and SSH were adjusted to continue pointing at the same encrypted source.
+
+The complete `jz` equivalence suite passes without any additional derivation
+change. The `x1c`, `ideapad`, `wsl`, and `macbook` derivations all remain exactly
+identical to the baseline.

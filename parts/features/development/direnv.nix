@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.direnv = ../../../home/programs/direnv.nix;
+  flake.modules.homeManager.direnv = ./_direnv/home.nix;
 }

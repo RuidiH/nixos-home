@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.mihomo = ../../../modules/services/mihomo.nix;
+  flake.modules.nixos.mihomo = ./_mihomo/nixos.nix;
 }

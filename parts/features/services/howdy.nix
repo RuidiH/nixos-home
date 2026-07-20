@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.howdy = ../../../modules/services/howdy.nix;
+  flake.modules.nixos.howdy = ./_howdy/nixos.nix;
 }

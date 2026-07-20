@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.gaming = ../../../modules/gaming.nix;
+  flake.modules.nixos.gaming = ./_gaming/nixos.nix;
 }

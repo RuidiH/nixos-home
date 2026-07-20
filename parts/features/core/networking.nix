@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.networking = ../../../modules/networking.nix;
+  flake.modules.nixos.networking = ./_networking/nixos.nix;
 }

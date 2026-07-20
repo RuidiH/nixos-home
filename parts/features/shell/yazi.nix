@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.yazi = ../../../home/programs/yazi.nix;
+  flake.modules.homeManager.yazi = ./_yazi/home.nix;
 }

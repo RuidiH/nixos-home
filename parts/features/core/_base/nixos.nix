@@ -1,0 +1,70 @@
+{ config, lib, pkgs, ... }:
+let
+  cfg = config.local.base;
+in
+{
+  options.local.base = {
+    enable = lib.mkEnableOption "base system configuration";
+  };
+
+  config = lib.mkIf cfg.enable {
+    time.timeZone = "America/Vancouver";
+    i18n.defaultLocale = "en_CA.UTF-8";
+
+    services.xserver.xkb = {
+      layout = "us";
+      variant = "";
+    };
+
+    nixpkgs.config.allowUnfree = true;
+
+    nix.settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      trusted-users = [ "reedh" ];
+      extra-substituters = [ "https://noctalia.cachix.org" "https://niri-epireyn.cachix.org"]; 
+      extra-trusted-public-keys = [ 
+        "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+        "niri-epireyn.cachix.org-1:tlVyFN7CtsDT+ZcLPS+ekFWeT1X6X4OqvWqbBMyIzFA="
+      ];
+    };
+
+    environment.systemPackages = with pkgs; [
+      vim
+      wget
+      git
+      curl
+      dig
+      openssl
+      nmap
+    ];
+
+    environment.variables.EDITOR = "nvim";
+
+    programs.zsh.enable = true;
+
+    # aws credentials
+    sops.secrets.aws_credentials = {
+      sopsFile = ../../../../secrets/secrets.yaml;
+      owner = "reedh";
+      path = "/home/reedh/.aws/credentials";
+    };
+    
+    # github access
+    sops.secrets.github_token = {
+      sopsFile = ../../../../secrets/secrets.yaml;
+    };
+
+    nix.extraOptions = ''
+      !include /run/secrets/github_token
+    '';
+    
+    # define sops age key file
+    sops.age.keyFile = "/root/.config/sops/age/keys.txt";
+     
+    # see https://nixos.wiki/wiki/Apropos
+    documentation.man.cache = { 
+      enable = true;
+    }; 
+
+  };
+}

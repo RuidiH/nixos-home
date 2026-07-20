@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.git = ../../../home/programs/git.nix;
+  flake.modules.homeManager.git = ./_git/home.nix;
 }
