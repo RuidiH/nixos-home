@@ -1,4 +1,4 @@
-{ config, inputs, lib, osConfig, ... }:
+{ config, inputs, ... }:
 {
   imports = [ inputs.noctalia.homeModules.default ];
   programs.noctalia = {
@@ -75,21 +75,7 @@
       };
 
       battery.warning_threshold = 20;
-      wallpaper = {
-        enabled = true;
-      } // lib.optionalAttrs (osConfig.networking.hostName == "jz") {
-        directory = "/home/reedh/Downloads/Wallpapers";
-        default.path = "/home/reedh/Downloads/Wallpapers/127396735_p0.png";
-        monitors = {
-          "DP-3".path = "/home/reedh/Downloads/Wallpapers/127396735_p0.png";
-          "HDMI-A-1".path = "/home/reedh/Downloads/Wallpapers/127396735_p0.png";
-        };
-        automation = {
-          enabled = true;
-          interval_seconds = 60;
-          order = "random";
-        };
-      };
+      wallpaper.enabled = true;
       theme = {
         mode = "dark";
         source = "builtin";
@@ -102,61 +88,7 @@
         telemetry_enabled = true;
       };
 
-      lockscreen_widgets = lib.optionalAttrs (osConfig.networking.hostName == "jz") {
-        enabled = false;
-        schema_version = 2;
-        widget_order = [ "lockscreen-login-box@DP-3" "lockscreen-login-box@HDMI-A-1" ];
-
-        grid = {
-          cell_size = 16;
-          major_interval = 4;
-          visible = true;
-        };
-
-        widget = {
-          "lockscreen-login-box@DP-3" = {
-            box_height = 70.0;
-            box_width = 400.0;
-            cx = 1280.0;
-            cy = 1321.0;
-            output = "DP-3";
-            rotation = 0.0;
-            type = "login_box";
-            settings = {
-              background_color = "surface_variant";
-              background_opacity = 0.88;
-              background_radius = 12.0;
-              input_opacity = 1.0;
-              input_radius = 6.0;
-              show_caps_lock = true;
-              show_keyboard_layout = true;
-              show_login_button = true;
-              show_password_hint = true;
-            };
-          };
-
-          "lockscreen-login-box@HDMI-A-1" = {
-            box_height = 70.0;
-            box_width = 400.0;
-            cx = 540.0;
-            cy = 1801.0;
-            output = "HDMI-A-1";
-            rotation = 0.0;
-            type = "login_box";
-            settings = {
-              background_color = "surface_variant";
-              background_opacity = 0.88;
-              background_radius = 12.0;
-              input_opacity = 1.0;
-              input_radius = 6.0;
-              show_caps_lock = true;
-              show_keyboard_layout = true;
-              show_login_button = true;
-              show_password_hint = true;
-            };
-          };
-        };
-      };
+      lockscreen_widgets = { };
 
       location.address = "Vancouver, Canada";
 

@@ -49,11 +49,7 @@ in
       # Output configuration is selected per host and matched by EDID identity,
       # so it remains stable when connector names change.
       outputs =
-        if hostName == "jz" then {
-          # Portrait Dell on the left, MSI on the right at 165 Hz.
-          "Dell Inc. DELL P2417H KH0NG93F1KYB" = dellOutput;
-          "Microstep MSI G271CQR CC3H212200308" = msiOutput 165.0;
-        } else if hostName == "x1c" then {
+        if hostName == "x1c" then {
           # Keep the desktop display order and append the laptop panel.
           "Dell Inc. DELL P2417H KH0NG93F1KYB" = dellOutput;
           "Microstep MSI G271CQR CC3H212200308" = msiOutput 144.0;

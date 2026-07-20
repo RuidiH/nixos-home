@@ -92,3 +92,18 @@ base and SSH were adjusted to continue pointing at the same encrypted source.
 The complete `jz` equivalence suite passes without any additional derivation
 change. The `x1c`, `ideapad`, `wsl`, and `macbook` derivations all remain exactly
 identical to the baseline.
+
+### 7. jz host ownership complete
+
+The generated hardware configuration now lives under `parts/hosts/_jz/`, and
+the obsolete `hosts/jz/default.nix` composition was removed. JZ-specific Niri
+outputs, Noctalia wallpaper rotation, and lockscreen layout now live in the
+named `homeManager.host-jz` module rather than hostname conditionals inside
+shared desktop features. The JZ user module now contains only identity and
+profile composition.
+
+No JZ configuration references `hosts/jz`, `home/default.nix`, or a hostname
+conditional in a shared Home Manager feature. The full equivalence suite and
+application validators pass, while every unmigrated host remains derivation-
+identical to the baseline. This completes the declarative dendritic migration
+for JZ; compatibility files remain solely for the other hosts.

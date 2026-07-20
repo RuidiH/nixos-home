@@ -3,11 +3,13 @@ let
   modules = config.flake.modules;
 in
 {
+  flake.modules.homeManager.host-jz = ./_jz/home.nix;
+
   flake.modules.nixos.host-jz =
     { pkgs, ... }:
     {
       imports = [
-        ../../hosts/jz/hardware-configuration.nix
+        ./_jz/hardware-configuration.nix
 
         modules.nixos.profile-workstation
         modules.nixos.nvidia
@@ -61,6 +63,7 @@ in
         };
         users.reedh.imports = [
           modules.homeManager.user-reedh-graphical
+          modules.homeManager.host-jz
         ];
       };
 
