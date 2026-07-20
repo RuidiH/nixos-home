@@ -2,6 +2,8 @@
   description = "Reed's nixos configurations";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,60 +36,7 @@
     };
     nixpkgs-pi.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
-  outputs = inputs@{ nixpkgs, home-manager, nix-darwin, sops-nix, aagl, ... }:
-    let
-      mkHost = { hostModule, isGraphical ? true, username ? "reedh", homeDirectory ? "/home/reedh" }: nixpkgs.lib.nixosSystem {
-      	system = "x86_64-linux";
-      	specialArgs = { inherit inputs; };
-      	modules = [
-      	  hostModule
-      	  sops-nix.nixosModules.sops
-      	  aagl.nixosModules.default
-      	  home-manager.nixosModules.home-manager
-      	  {
-      	    home-manager.useGlobalPkgs = true;
-                  home-manager.useUserPackages = true;
-      	    home-manager.extraSpecialArgs = { inherit inputs isGraphical; };
-                  home-manager.users.${username} = import ./home { inherit isGraphical username homeDirectory; };
-      	  }
-      	];
-      };
-      mkDarwin = { hostModule, username, homeDirectory, isGraphical ? false}: nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = { inherit inputs; };
-        modules = [
-          hostModule
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs isGraphical; };
-            home-manager.users.${username} = import ./home { inherit isGraphical username homeDirectory; };
-          }
-        ];
-      };
-    in
-    {
-      nixosConfigurations.x1c = mkHost {
-        hostModule = ./hosts/x1c;
-        isGraphical = true;
-      };
-      nixosConfigurations.ideapad = mkHost {
-        hostModule = ./hosts/ideapad;
-        isGraphical = true;
-      };
-      nixosConfigurations.wsl = mkHost {
-        hostModule = ./hosts/wsl;
-        isGraphical = true;
-      };
-      nixosConfigurations.jz = mkHost {
-        hostModule = ./hosts/jz;
-        isGraphical = true;
-      };
-      darwinConfigurations.macbook = mkDarwin {
-        hostModule = ./hosts/macbook;
-        username = "rhuang";
-        homeDirectory = "/Users/rhuang";
-      };
-    };
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; }
+      (inputs.import-tree ./parts);
 }

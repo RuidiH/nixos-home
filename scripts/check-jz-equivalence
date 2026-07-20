@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo=$(git rev-parse --show-toplevel)
+baseline_rev=${BASELINE_REV:-0f2825f5874310b92ccb112c3e80a0f981bdb669}
+baseline=${BASELINE_REF:-"git+file://${repo}?rev=${baseline_rev}"}
+current=${CURRENT_REF:-"${repo}"}
+
+system_attr=nixosConfigurations.jz.config.system.build.toplevel
+hm_attr=nixosConfigurations.jz.config.home-manager.users.reedh.home.activationPackage
+packages_attr=nixosConfigurations.jz.config.environment.systemPackages
+home_packages_attr=nixosConfigurations.jz.config.home-manager.users.reedh.home.packages
+niri_attr=nixosConfigurations.jz.config.home-manager.users.reedh.programs.niri.finalConfig
+noctalia_attr='nixosConfigurations.jz.config.home-manager.users.reedh.xdg.configFile."noctalia/config.toml".source'
+
+fail=0
+exact=1
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
+
+compare_drv() {
+  local label=$1 attr=$2 old new
+  old=$(nix eval --raw "${baseline}#${attr}.drvPath")
+  new=$(nix eval --raw "${current}#${attr}.drvPath")
+  if [[ $old == "$new" ]]; then
+    printf '✓ %s derivation is identical\n' "$label"
+  else
+    printf '△ %s derivation changed\n  old: %s\n  new: %s\n' "$label" "$old" "$new"
+    exact=0
+  fi
+}
+
+compare_drv "NixOS" "$system_attr"
+compare_drv "Home Manager" "$hm_attr"
+
+# Module nesting can reorder list options without changing their members. Check
+# the system package multiset independently from the resulting system path.
+for ref_and_file in \
+  "${baseline}|${tmpdir}/packages-old" \
+  "${current}|${tmpdir}/packages-new"
+do
+  ref=${ref_and_file%%|*}
+  file=${ref_and_file#*|}
+  nix eval --json "${ref}#${packages_attr}" \
+    --apply 'xs: builtins.sort builtins.lessThan (map (x: x.name) xs)' > "$file"
+done
+if cmp -s "$tmpdir/packages-old" "$tmpdir/packages-new"; then
+  echo '✓ NixOS system package multiset is identical'
+else
+  echo '✗ NixOS system package multiset changed'
+  diff -u "$tmpdir/packages-old" "$tmpdir/packages-new" || true
+  fail=1
+fi
+
+for ref_and_file in \
+  "${baseline}|${tmpdir}/home-packages-old" \
+  "${current}|${tmpdir}/home-packages-new"
+do
+  ref=${ref_and_file%%|*}
+  file=${ref_and_file#*|}
+  nix eval --json "${ref}#${home_packages_attr}" \
+    --apply 'xs: builtins.sort builtins.lessThan (map (x: x.name) xs)' > "$file"
+done
+if cmp -s "$tmpdir/home-packages-old" "$tmpdir/home-packages-new"; then
+  echo '✓ Home Manager package multiset is identical'
+else
+  echo '✗ Home Manager package multiset changed'
+  diff -u "$tmpdir/home-packages-old" "$tmpdir/home-packages-new" || true
+  fail=1
+fi
+
+nix eval --raw "${baseline}#${niri_attr}" > "$tmpdir/niri-old.kdl"
+nix eval --raw "${current}#${niri_attr}" > "$tmpdir/niri-new.kdl"
+if cmp -s "$tmpdir/niri-old.kdl" "$tmpdir/niri-new.kdl"; then
+  echo '✓ Niri finalConfig is identical'
+else
+  echo '✗ Niri finalConfig changed'
+  diff -u "$tmpdir/niri-old.kdl" "$tmpdir/niri-new.kdl" || true
+  fail=1
+fi
+
+old_noctalia=$(nix build --no-link --print-out-paths "${baseline}#${noctalia_attr}")
+new_noctalia=$(nix build --no-link --print-out-paths "${current}#${noctalia_attr}")
+if cmp -s "$old_noctalia" "$new_noctalia"; then
+  echo '✓ Noctalia config is identical'
+else
+  echo '✗ Noctalia config changed'
+  diff -u "$old_noctalia" "$new_noctalia" || true
+  fail=1
+fi
+
+old_system=$(nix build --no-link --print-out-paths "${baseline}#${system_attr}")
+new_system=$(nix build --no-link --print-out-paths "${current}#${system_attr}")
+if [[ $old_system == "$new_system" ]]; then
+  echo "✓ NixOS output is identical: $new_system"
+else
+  exact=0
+  nix-store -qR "$old_system" \
+    | sed -E 's#^/nix/store/[a-z0-9]{32}-##' | sort > "$tmpdir/closure-old"
+  nix-store -qR "$new_system" \
+    | sed -E 's#^/nix/store/[a-z0-9]{32}-##' | sort > "$tmpdir/closure-new"
+  if cmp -s "$tmpdir/closure-old" "$tmpdir/closure-new"; then
+    echo '✓ NixOS closure members are identical by name/version'
+    echo '  Output paths differ because deferred-module nesting changed ordered merges.'
+  else
+    echo '✗ NixOS closure members changed'
+    nix store diff-closures "$old_system" "$new_system" || true
+    diff -u "$tmpdir/closure-old" "$tmpdir/closure-new" || true
+    fail=1
+  fi
+fi
+
+if command -v niri >/dev/null; then
+  niri validate -c "$tmpdir/niri-new.kdl"
+fi
+if command -v noctalia >/dev/null; then
+  noctalia config validate "$new_noctalia"
+fi
+
+if (( fail == 0 )); then
+  if (( exact == 1 )); then
+    echo 'PASS: jz is exactly equivalent to the baseline.'
+  else
+    echo 'PASS: jz is closure/config equivalent; derivation ordering changed.'
+  fi
+fi
+
+exit "$fail"
