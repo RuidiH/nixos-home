@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.greetd = ../../../modules/desktop/greetd.nix;
+  flake.modules.nixos.greetd = ./_greetd/nixos.nix;
 }

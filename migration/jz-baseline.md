@@ -68,3 +68,15 @@ graphical features itself. The host leaf is limited to hardware configuration,
 NVIDIA, Howdy, host-specific boot/hardware settings, and Home Manager wiring.
 The equivalence checks continue to pass with identical package multisets and
 normalized closure membership.
+
+### 5. Desktop implementation locality
+
+The Niri, fcitx5, Noctalia, Alacritty, fonts, and greetd implementations now
+live beside their registration leaves under `parts/features/desktop/`. Hidden
+underscore-prefixed implementation directories keep `import-tree` from treating
+NixOS/Home Manager implementation files as flake-parts modules. Compatibility
+modules remain at the old `modules/desktop/` and `home/programs/` paths for
+hosts that still use the legacy composition.
+
+This relocation does not introduce any additional derivation change for `jz`,
+and the legacy `x1c` derivation remains exactly equal to the baseline.

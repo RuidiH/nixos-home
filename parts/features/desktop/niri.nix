@@ -1,6 +1,6 @@
 {
   flake.modules = {
-    nixos.niri = ../../../modules/desktop/niri.nix;
-    homeManager.niri = ../../../home/programs/niri.nix;
+    nixos.niri = ./_niri/nixos.nix;
+    homeManager.niri = ./_niri/home.nix;
   };
 }

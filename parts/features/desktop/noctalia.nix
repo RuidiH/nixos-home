@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.noctalia = ../../../home/programs/noctalia.nix;
+  flake.modules.homeManager.noctalia = ./_noctalia/home.nix;
 }

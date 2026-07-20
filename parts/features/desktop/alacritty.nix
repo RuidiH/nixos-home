@@ -1,3 +1,3 @@
 {
-  flake.modules.homeManager.alacritty = ../../../home/programs/alacritty.nix;
+  flake.modules.homeManager.alacritty = ./_alacritty/home.nix;
 }

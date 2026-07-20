@@ -1,3 +1,3 @@
 {
-  flake.modules.nixos.fonts = ../../../modules/desktop/fonts.nix;
+  flake.modules.nixos.fonts = ./_fonts/nixos.nix;
 }

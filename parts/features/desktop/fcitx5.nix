@@ -1,6 +1,6 @@
 {
   flake.modules = {
-    nixos.fcitx5 = ../../../modules/desktop/fcitx5.nix;
-    homeManager.fcitx5 = ../../../home/programs/fcitx5.nix;
+    nixos.fcitx5 = ./_fcitx5/nixos.nix;
+    homeManager.fcitx5 = ./_fcitx5/home.nix;
   };
 }
